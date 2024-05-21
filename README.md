@@ -9,3 +9,5 @@ https://youtu.be/JD-xq1IeDjU?si=9yGcirapBTDe238n
 https://www.khronos.org/opengl/wiki/Vertex_Specification
 
 https://moderngl.readthedocs.io/en/5.10.0/
+
+https://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/
