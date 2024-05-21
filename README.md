@@ -3,6 +3,9 @@ A 3D rendering engine made using ModernGL (a Python wrapper for OpenGL), the Ope
 
 ### Resources
 https://youtu.be/eJDIsFJN4OQ?si=ndnRCtoDc9qMOMcH
+
 https://youtu.be/JD-xq1IeDjU?si=9yGcirapBTDe238n
+
 https://www.khronos.org/opengl/wiki/Vertex_Specification
+
 https://moderngl.readthedocs.io/en/5.10.0/
