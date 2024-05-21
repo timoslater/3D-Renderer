@@ -47,7 +47,10 @@ class Engine:
             self.clock.tick(self.MAX_FPS)
 
 if __name__ == "__main__":
-    os.environ['SDL_VIDEODRIVER'] = 'x11'
+
+    if sys.platform == "linux":
+        os.environ['SDL_VIDEODRIVER'] = 'x11'
+
     engine = Engine()
     engine.run()
 
