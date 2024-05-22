@@ -11,3 +11,10 @@ https://www.khronos.org/opengl/wiki/Vertex_Specification
 https://moderngl.readthedocs.io/en/5.10.0/
 
 https://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/
+
+
+### TODO:
+- Add view and projection matrix transformations under Camera class
+- Add textures and/or outlines 
+- Add lighting
+- Add .obj file parsing
