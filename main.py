@@ -55,9 +55,9 @@ class Engine:
                 self.camera.translate((1*speed, 0, 0))
             
         if keys[pg.K_n]:
-                self.camera.rotate((0, 0, -1*speed)) 
+                self.camera.rotate((0, -1*speed, 0)) 
         if keys[pg.K_m]:
-                self.camera.rotate((0, 0, 1*speed))
+                self.camera.rotate((0, 1*speed, 0))
 
         if keys[pg.K_i]:
                 self.scene.translate_all((0, 1*speed, 0))
