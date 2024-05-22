@@ -13,3 +13,7 @@ https://moderngl.readthedocs.io/en/5.10.0/
 https://www.opengl-tutorial.org/beginners-tutorials/tutorial-3-matrices/
 
 https://gamedev.stackexchange.com/questions/189013/how-does-glmlookat-produce-a-view-matrix
+
+https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/gluPerspective.xml
+
+
