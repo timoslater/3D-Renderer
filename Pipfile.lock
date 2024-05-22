@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3ae9fa84c168a8c3906ee217939439a18c34401755dff6e2a2361a8cab61a838"
+            "sha256": "bca311094d2371964681cc5405c76dfed5ecdc13ad93cafa456948ca0e67bf8d"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -86,6 +86,15 @@
                 "sha256:fe0be5cf5a9598379e994d7d96d84ce506e6a7680a098c1f1112de7aaa036ebd"
             ],
             "version": "==2.5.0"
+        },
+        "glm": {
+            "hashes": [
+                "sha256:5a1f083a32ca7a340c71b0c11666bce9182d0107e297307b95e413b2596cec2c",
+                "sha256:73e0f1b68cddbe98ad3476e91f3867092d5da848da64df08622d00944bfe1ad1",
+                "sha256:a77753b5a781a9afe0cb196b7a1e8f156d94c0829da90d8947d77a674613bc7a"
+            ],
+            "index": "pypi",
+            "version": "==0.4.4"
         },
         "moderngl": {
             "hashes": [

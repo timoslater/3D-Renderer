@@ -18,3 +18,8 @@ class Scene:
             obj.destroy()
 
         self.objects = []
+
+    def translate_all(self, translation):
+        for obj in self.objects:
+            obj.update(translation=translation)
+            

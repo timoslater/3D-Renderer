@@ -25,6 +25,8 @@ class Engine:
         
         print(self.ctx.info['GL_RENDERER'])
 
+        self.dt = 0
+
 
     def check_events(self):
         for event in pg.event.get():
@@ -32,6 +34,17 @@ class Engine:
                 self.scene.destroy_all()
                 pg.quit()
                 sys.exit(0)
+
+        keys = pg.key.get_pressed()
+        speed = 0.005 * self.dt
+        if keys[pg.K_w]:
+                self.scene.translate_all((0, 1*speed, 0))
+        if keys[pg.K_a]:
+                self.scene.translate_all((-1*speed, 0, 0))
+        if keys[pg.K_s]:
+                self.scene.translate_all((0, -1*speed, 0))
+        if keys[pg.K_d]:
+                self.scene.translate_all((1*speed, 0, 0))
 
     def render(self):
         self.ctx.clear(color=self.BG_COLOR)
@@ -44,7 +57,7 @@ class Engine:
         while True:
             self.check_events()
             self.render()
-            self.clock.tick(self.MAX_FPS)
+            self.dt = self.clock.tick(self.MAX_FPS)
 
 if __name__ == "__main__":
 
