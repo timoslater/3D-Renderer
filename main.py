@@ -1,7 +1,7 @@
 import pygame as pg 
 import moderngl as mgl
 import sys, os
-from models import Triangle
+from models import Triangle, Cube
 from scene import Scene
 
 class Engine:
@@ -21,7 +21,7 @@ class Engine:
 
         self.ctx = mgl.create_context()
         self.scene = Scene(self)
-        self.scene.add_object(Triangle)
+        self.scene.add_object(Cube)
         
         print(self.ctx.info['GL_RENDERER'])
 
@@ -45,6 +45,10 @@ class Engine:
                 self.scene.translate_all((0, -1*speed, 0))
         if keys[pg.K_d]:
                 self.scene.translate_all((1*speed, 0, 0))
+        if keys[pg.K_j]:
+                self.scene.rotate_all((0, 1*speed, 0))
+        if keys[pg.K_l]:
+                self.scene.rotate_all((0, -1*speed, 0))
 
     def render(self):
         self.ctx.clear(color=self.BG_COLOR)

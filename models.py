@@ -1,4 +1,5 @@
-import numpy as np 
+import numpy as np
+from pygame import init 
 
 class Triangle:
     def __init__(self, ctx, position=(0, 0, 0)) -> None:
@@ -8,17 +9,42 @@ class Triangle:
         self.shader_program = self.get_shader_program('default')
         self.vao = self.get_vao()
         self.model_mat = np.identity(4)
+        self.rotation = [0, 0, 0]
+        self.translation = [0, 0, 0]
 
-    def update(self, translation=(0, 0, 0)):
-        t_x, t_y, t_z = translation 
+    def update(self, translation=(0, 0, 0), rotation=(0, 0, 0)):
 
-        translate_mat = np.mat([[1, 0, 0, t_x],
+        for i, c in enumerate(translation):
+            self.translation[i] += c
+
+        for i, c in enumerate(rotation):
+            self.rotation[i] += c
+        
+        t_x, t_y, t_z = self.translation
+        r_x, r_y, r_z = self.rotation
+
+        rotation_x = np.mat([[1, 0, 0, 0],
+                           [0, np.cos(r_x), -np.sin(r_x), 0],
+                           [0, np.sin(r_y), np.cos(r_y), 0],
+                           [0, 0, 0, 1]])
+
+        rotation_y = np.mat([[np.cos(r_y), 0, -np.sin(r_y), 0],
+                           [0, 1, 0, 0],
+                           [np.sin(r_y), 0, np.cos(r_y), 0],
+                           [0, 0, 0, 1]])
+        
+        rotation_z = np.mat([[np.cos(r_z), -np.sin(r_z), 0, 0],
+                           [np.sin(r_z), np.cos(r_z), 0, 0],
+                           [0, 0, 0, 0],
+                           [0, 0, 0, 1]])
+
+        translation = np.mat([[1, 0, 0, t_x],
                                [0, 1, 0, t_y],
                                [0, 0, 1, t_z],
                                [0, 0, 0, 1]])
 
-        self.model_mat = self.model_mat * translate_mat
-        
+        self.model_mat = np.identity(4) * translation * rotation_x * rotation_y * rotation_z
+       
 
         self.shader_program['model_mat'].write(np.asarray(self.model_mat).astype('f4')) 
 
@@ -54,6 +80,27 @@ class Triangle:
             vertex_shader = file.read()
         with open(f'shaders/{shader_name}.frag') as file:
             fragment_shader = file.read()
-
         program = self.ctx.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
+
         return program
+
+class Cube(Triangle):
+    def __init__(self, ctx, position=(0, 0, 0)) -> None:
+        super().__init__(ctx, position)
+
+    def get_vertex_data(self):
+        # from link
+        vertices = [(-0.3, -0.3, 0.3), (0.3, -0.3,  0.3), (0.3,  0.3,  0.3), (-0.3, 0.3,  0.3),
+                    (-0.3, 0.3, -0.3), (-0.3, -0.3, -0.3), (0.3, -0.3, -0.3), (0.3, 0.3, -0.3)]
+
+        indices = [(0, 2, 3), (0, 1, 2),
+                   (1, 7, 2), (1, 6, 7),
+                   (6, 5, 4), (4, 7, 6),
+                   (3, 4, 5), (3, 5, 0),
+                   (3, 7, 4), (3, 2, 7),
+                   (0, 6, 1), (0, 5, 6)]
+
+        triangles = [vertices[ind] for triangle in indices for ind in triangle]
+        
+        return np.array(triangles, dtype='f4')
+

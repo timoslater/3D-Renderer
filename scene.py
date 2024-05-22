@@ -22,4 +22,8 @@ class Scene:
     def translate_all(self, translation):
         for obj in self.objects:
             obj.update(translation=translation)
+
+    def rotate_all(self, rotation):
+        for obj in self.objects:
+            obj.update(rotation=rotation)
             
