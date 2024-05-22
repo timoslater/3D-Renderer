@@ -26,4 +26,4 @@ class Scene:
     def rotate_all(self, rotation):
         for obj in self.objects:
             obj.update(rotation=rotation)
-            
+        

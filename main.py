@@ -1,19 +1,23 @@
+from math import pi
 import pygame as pg 
 import moderngl as mgl
 import sys, os
-from models import Triangle, Cube
+from models import Base, Cube
 from scene import Scene
+from camera import Camera
 
 class Engine:
-    def __init__(self, dimensions=(1920, 1080), background_color=(0.196, 0.204, 0.216, 1), max_fps=60) -> None:
+    def __init__(self, dimensions=(1280, 720), background_color=(0.196, 0.204, 0.216, 1), max_fps=60) -> None:
         
         pg.init()
+
+        self.dimensions = dimensions
 
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_PROFILE_MASK, pg.GL_CONTEXT_PROFILE_CORE)
 
-        pg.display.set_mode(dimensions, flags=pg.OPENGL | pg.DOUBLEBUF)
+        pg.display.set_mode(self.dimensions, flags=pg.OPENGL | pg.DOUBLEBUF)
 
         self.clock = pg.time.Clock()
         self.MAX_FPS = max_fps
@@ -22,10 +26,14 @@ class Engine:
         self.ctx = mgl.create_context()
         self.scene = Scene(self)
         self.scene.add_object(Cube)
-        
+        self.camera = Camera(self, 50*(pi/180)) 
+
         print(self.ctx.info['GL_RENDERER'])
 
         self.dt = 0
+
+    def get_aspect_ratio(self):
+        return self.dimensions[0] / self.dimensions[1]
 
 
     def check_events(self):
@@ -38,22 +46,36 @@ class Engine:
         keys = pg.key.get_pressed()
         speed = 0.005 * self.dt
         if keys[pg.K_w]:
-                self.scene.translate_all((0, 1*speed, 0))
+                self.camera.translate((0, 0, 1*speed))
         if keys[pg.K_a]:
-                self.scene.translate_all((-1*speed, 0, 0))
+                self.camera.translate((-1*speed, 0, 0))
         if keys[pg.K_s]:
-                self.scene.translate_all((0, -1*speed, 0))
+                self.camera.translate((0, 0, -1*speed)) 
         if keys[pg.K_d]:
-                self.scene.translate_all((1*speed, 0, 0))
+                self.camera.translate((1*speed, 0, 0))
+            
+        if keys[pg.K_n]:
+                self.camera.rotate((0, 0, -1*speed)) 
+        if keys[pg.K_m]:
+                self.camera.rotate((0, 0, 1*speed))
+
+        if keys[pg.K_i]:
+                self.scene.translate_all((0, 1*speed, 0))
         if keys[pg.K_j]:
-                self.scene.rotate_all((0, 1*speed, 0))
+                self.scene.translate_all((-1*speed, 0, 0))
+        if keys[pg.K_k]:
+                self.scene.translate_all((0, -1*speed, 0))
         if keys[pg.K_l]:
-                self.scene.rotate_all((0, -1*speed, 0))
+                self.scene.translate_all((1*speed, 0, 0))
+        # if keys[pg.K_j]:
+        #         self.scene.rotate_all((0, 1*speed, 0))
+        # if keys[pg.K_l]:
+        #         self.scene.rotate_all((0, -1*speed, 0))
 
     def render(self):
         self.ctx.clear(color=self.BG_COLOR)
         for obj in self.scene.get_objects():
-            obj.render()
+            obj.render(self.camera)
 
         pg.display.flip()
 

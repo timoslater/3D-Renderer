@@ -8,6 +8,8 @@ numpy = "*"
 moderngl = "*"
 pygame = "*"
 glm = "*"
+pyglm = "*"
+requests = "*"
 
 [dev-packages]
 

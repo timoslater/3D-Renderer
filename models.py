@@ -1,7 +1,8 @@
 import numpy as np
 from pygame import init 
+from camera import Camera
 
-class Triangle:
+class Base:
     def __init__(self, ctx, position=(0, 0, 0)) -> None:
         self.ctx = ctx
         self.vbo = self.get_vbo()
@@ -11,6 +12,7 @@ class Triangle:
         self.model_mat = np.identity(4)
         self.rotation = [0, 0, 0]
         self.translation = [0, 0, 0]
+        self.update()
 
     def update(self, translation=(0, 0, 0), rotation=(0, 0, 0)):
 
@@ -48,7 +50,10 @@ class Triangle:
 
         self.shader_program['model_mat'].write(np.asarray(self.model_mat).astype('f4')) 
 
-    def render(self):
+    def render(self, camera):
+        self.update()
+        self.shader_program['view_mat'].write(np.asarray(camera.get_view_matrix()).astype('f4'))
+        self.shader_program['projection_mat'].write(np.asarray(camera.get_projection_matrix()).astype('f4'))
         self.vao.render()
 
     def destroy(self):
@@ -84,7 +89,7 @@ class Triangle:
 
         return program
 
-class Cube(Triangle):
+class Cube(Base):
     def __init__(self, ctx, position=(0, 0, 0)) -> None:
         super().__init__(ctx, position)
 
