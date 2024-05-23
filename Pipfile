@@ -7,9 +7,9 @@ name = "pypi"
 numpy = "*"
 moderngl = "*"
 pygame = "*"
-glm = "*"
 pyglm = "*"
 requests = "*"
+pyrr = "*"
 
 [dev-packages]
 

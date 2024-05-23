@@ -1,5 +1,6 @@
-from math import pi
 import pygame as pg 
+from numpy import subtract as tup_subtract
+from math import pi
 import moderngl as mgl
 import sys, os
 from models import Base, Cube
@@ -7,7 +8,7 @@ from scene import Scene
 from camera import Camera
 
 class Engine:
-    def __init__(self, dimensions=(1280, 720), background_color=(0.196, 0.204, 0.216, 1), max_fps=60) -> None:
+    def __init__(self, dimensions=(1920, 1080), background_color=(0.196, 0.204, 0.216, 1), max_fps=60, sens=0.0000005) -> None:
         
         pg.init()
 
@@ -21,16 +22,21 @@ class Engine:
 
         self.clock = pg.time.Clock()
         self.MAX_FPS = max_fps
+        self.SENS = sens
         self.BG_COLOR = background_color
 
         self.ctx = mgl.create_context()
+        self.camera = Camera(self, 50) 
         self.scene = Scene(self)
         self.scene.add_object(Cube)
-        self.camera = Camera(self, 50*(pi/180)) 
 
         print(self.ctx.info['GL_RENDERER'])
 
+        self.mouse = pg.mouse
         self.dt = 0
+
+        self.last_mouse = pg.mouse.get_pos()
+        self.dmouse = (0, 0)
 
     def get_aspect_ratio(self):
         return self.dimensions[0] / self.dimensions[1]
@@ -42,6 +48,9 @@ class Engine:
                 self.scene.destroy_all()
                 pg.quit()
                 sys.exit(0)
+
+            if event.type == pg.MOUSEMOTION:
+                self.camera.update()
 
         keys = pg.key.get_pressed()
         speed = 0.005 * self.dt
@@ -55,9 +64,9 @@ class Engine:
                 self.camera.translate((1*speed, 0, 0))
             
         if keys[pg.K_n]:
-                self.camera.rotate((0, -1*speed, 0)) 
+                self.camera.rotate((0, -self.SENS, 0)) 
         if keys[pg.K_m]:
-                self.camera.rotate((0, 1*speed, 0))
+                self.camera.rotate((0, self.SENS, 0))
 
         if keys[pg.K_i]:
                 self.scene.translate_all((0, 1*speed, 0))
@@ -75,7 +84,7 @@ class Engine:
     def render(self):
         self.ctx.clear(color=self.BG_COLOR)
         for obj in self.scene.get_objects():
-            obj.render(self.camera)
+            obj.render()
 
         pg.display.flip()
 
@@ -83,6 +92,7 @@ class Engine:
         while True:
             self.check_events()
             self.render()
+            self.dmouse = tup_subtract(self.mouse.get_pos(), self.last_mouse)
             self.dt = self.clock.tick(self.MAX_FPS)
 
 if __name__ == "__main__":

@@ -5,7 +5,7 @@ class Scene:
 
     def add_object(self, *obj_classes):
         for obj_class in obj_classes:
-            self.objects.append(obj_class(self.engine.ctx))
+            self.objects.append(obj_class(self.engine))
 
     def get_objects(self):
         def all_objects():
