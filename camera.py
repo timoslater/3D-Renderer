@@ -28,15 +28,15 @@ class Camera:
         self.update()
 
     def update(self):
-        mouse_x, mouse_y = self.engine.mouse.get_pos()
-        print(mouse_x, mouse_y)
-        self.engine.mouse.set_pos(self.engine.dimensions[0]/2, self.engine.dimensions[1]/2)
-
-        self.rotation[2] += self.engine.SENS * self.engine.dt * (self.engine.dimensions[0]/2 - mouse_x)
-        self.rotation[1] += self.engine.SENS * self.engine.dt * (self.engine.dimensions[1]/2 - mouse_y)
-        self.direction = glm.vec3(glm.cos(self.rotation[1])*glm.sin(self.rotation[2]), glm.sin(self.rotation[1]), glm.cos(self.rotation[1]) * glm.cos(self.rotation[2]))
-        self.right = glm.vec3(glm.sin(self.rotation[2] - pi / 2), 0, glm.cos(self.rotation[2] - pi / 2))
-        self.up = glm.cross(self.right, self.direction)
+        # mouse_x, mouse_y = self.engine.mouse.get_pos()
+        # print(mouse_x, mouse_y)
+        # self.engine.mouse.set_pos(self.engine.dimensions[0]/2, self.engine.dimensions[1]/2)
+        #
+        # self.rotation[2] += self.engine.SENS * self.engine.dt * (self.engine.dimensions[0]/2 - mouse_x)
+        # self.rotation[1] += self.engine.SENS * self.engine.dt * (self.engine.dimensions[1]/2 - mouse_y)
+        # self.direction = glm.vec3(glm.cos(self.rotation[1])*glm.sin(self.rotation[2]), glm.sin(self.rotation[1]), glm.cos(self.rotation[1]) * glm.cos(self.rotation[2]))
+        # self.right = glm.vec3(glm.sin(self.rotation[2] - pi / 2), 0, glm.cos(self.rotation[2] - pi / 2))
+        # self.up = glm.cross(self.right, self.direction)
 
         self.view_mat = self.get_view_matrix()
         self.projection_mat = self.get_projection_matrix()
@@ -46,7 +46,8 @@ class Camera:
 
     def get_view_matrix(self):
 
-        return glm.lookAt(glm.vec3(*self.translation), glm.vec3(*self.translation) + self.direction, self.up)
+        return glm.lookAt(glm.vec3(*self.translation), glm.vec3(self.translation[0], 0, 0), self.up)
+        # return glm.lookAt(glm.vec3(*self.translation), glm.vec3(*self.translation) + self.direction, self.up)
 
     def get_projection_matrix(self):
         # f = 1 / np.tan(np.radians(self.fov)/2)
