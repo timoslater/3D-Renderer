@@ -13,6 +13,7 @@ class Engine:
         pg.init()
 
         self.dimensions = dimensions
+        self.wireframe = False
 
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MAJOR_VERSION, 3)
         pg.display.gl_set_attribute(pg.GL_CONTEXT_MINOR_VERSION, 3)
@@ -49,6 +50,9 @@ class Engine:
                 pg.quit()
                 sys.exit(0)
 
+            if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                self.wireframe = not self.wireframe
+
             if event.type == pg.MOUSEMOTION:
                 self.camera.update()
 
@@ -81,10 +85,11 @@ class Engine:
         # if keys[pg.K_l]:
         #         self.scene.rotate_all((0, -1*speed, 0))
 
+
     def render(self):
         self.ctx.clear(color=self.BG_COLOR)
         for obj in self.scene.get_objects():
-            obj.render()
+            obj.render(self.wireframe)
 
         pg.display.flip()
 

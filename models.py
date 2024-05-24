@@ -26,7 +26,7 @@ class Base:
             self.rotation[i] += c
 
 
-    def render(self):
+    def render(self, wireframe):
         r_x, r_y, r_z = self.rotation
 
         model = glm.translate(glm.mat4(), glm.vec3(*self.translation))
@@ -36,7 +36,7 @@ class Base:
 
         self.shader_program['mvp'].write(self.engine.camera.projection_mat * self.engine.camera.view_mat * model)
 
-        self.vao.render(mgl.LINE_STRIP)
+        self.vao.render(mgl.LINE_STRIP if wireframe else mgl.TRIANGLES)
 
     def destroy(self):
         self.vbo.release()
