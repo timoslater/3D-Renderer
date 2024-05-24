@@ -26,7 +26,7 @@ class Engine:
         self.MAX_FPS = max_fps
         self.SENS = sens
         self.BG_COLOR = background_color
-        self.render_color = glm.vec3(1, 0, 0)
+        self.render_color = glm.vec3(0, 1, 0)
         self.continuous_rotate = False
 
         self.ctx = mgl.create_context()
@@ -72,6 +72,9 @@ class Engine:
 
                 if event.key == pg.K_BACKSPACE:
                     self.continuous_rotate = not self.continuous_rotate
+
+                if event.key == pg.K_o:
+                    pg.display.toggle_fullscreen()
 
             if event.type == pg.MOUSEMOTION:
                 self.camera.update()
