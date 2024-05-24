@@ -96,10 +96,11 @@ class Engine:
                 self.scene.translate_all((0, -1*speed, 0))
         if keys[pg.K_l]:
                 self.scene.translate_all((1*speed, 0, 0))
-        # if keys[pg.K_j]:
-        #         self.scene.rotate_all((0, 1*speed, 0))
-        # if keys[pg.K_l]:
-        #         self.scene.rotate_all((0, -1*speed, 0))
+
+        if keys[pg.K_1]:
+                self.scene.rotate_all((0, 1*speed, 0))
+        if keys[pg.K_2]:
+                self.scene.rotate_all((0, -1*speed, 0))
 
 
     def render(self):
