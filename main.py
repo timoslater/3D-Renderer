@@ -60,6 +60,15 @@ class Engine:
                 if event.key == pg.K_c:
                    self.render_color = glm.vec3(*(rand for rand in np.random.uniform(size=3)))
 
+                if event.key == pg.K_r:
+                    self.render_color = glm.vec3(1, 0, 0)
+
+                elif event.key == pg.K_g:
+                    self.render_color = glm.vec3(0, 1, 0)
+
+                elif event.key == pg.K_b:
+                    self.render_color = glm.vec3(0, 0, 1)
+
             if event.type == pg.MOUSEMOTION:
                 self.camera.update()
 
