@@ -27,7 +27,11 @@ class Base:
 
 
     def render(self, wireframe):
-        r_x, r_y, r_z = self.rotation
+        if self.engine.continuous_rotate:
+            z = self.rotation[-1]
+            self.rotation = [c+self.engine.dt/400 for c in self.rotation[:-1]]
+            self.rotation.append(z)
+        r_x, r_y, r_z = self.rotation 
 
         model = glm.translate(glm.mat4(), glm.vec3(*self.translation))
         model = glm.rotate(model, r_x, glm.vec3(1, 0, 0))

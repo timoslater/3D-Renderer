@@ -27,6 +27,7 @@ class Engine:
         self.SENS = sens
         self.BG_COLOR = background_color
         self.render_color = glm.vec3(1, 0, 0)
+        self.continuous_rotate = False
 
         self.ctx = mgl.create_context()
         self.camera = Camera(self, 50) 
@@ -68,6 +69,9 @@ class Engine:
 
                 elif event.key == pg.K_b:
                     self.render_color = glm.vec3(0, 0, 1)
+
+                if event.key == pg.K_BACKSPACE:
+                    self.continuous_rotate = not self.continuous_rotate
 
             if event.type == pg.MOUSEMOTION:
                 self.camera.update()
