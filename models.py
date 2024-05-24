@@ -35,6 +35,7 @@ class Base:
         model = glm.rotate(model, r_z, glm.vec3(0, 0, 1))
 
         self.shader_program['mvp'].write(self.engine.camera.projection_mat * self.engine.camera.view_mat * model)
+        self.shader_program['render_color'].write(self.engine.render_color)
 
         self.vao.render(mgl.LINE_STRIP if wireframe else mgl.TRIANGLES)
 
@@ -87,4 +88,5 @@ class Cube(Base):
                    (3, 7, 4), (3, 2, 7),
                    (0, 6, 1), (0, 5, 6)]
         vertex_data = [vertices[ind] for triangle in indices for ind in triangle]
+        print(len(vertex_data))
         return np.array(vertex_data, dtype='f4')

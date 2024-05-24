@@ -1,7 +1,8 @@
 import pygame as pg 
-from numpy import subtract as tup_subtract
+import numpy as np
 from math import pi
 import moderngl as mgl
+import glm
 import sys, os
 from models import Base, Cube
 from scene import Scene
@@ -25,6 +26,7 @@ class Engine:
         self.MAX_FPS = max_fps
         self.SENS = sens
         self.BG_COLOR = background_color
+        self.render_color = glm.vec3(1, 0, 0)
 
         self.ctx = mgl.create_context()
         self.camera = Camera(self, 50) 
@@ -50,8 +52,13 @@ class Engine:
                 pg.quit()
                 sys.exit(0)
 
-            if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                self.wireframe = not self.wireframe
+            if event.type == pg.KEYDOWN:
+
+                if event.key == pg.K_SPACE:
+                    self.wireframe = not self.wireframe
+
+                if event.key == pg.K_c:
+                   self.render_color = glm.vec3(*(rand for rand in np.random.uniform(size=3)))
 
             if event.type == pg.MOUSEMOTION:
                 self.camera.update()
@@ -97,7 +104,7 @@ class Engine:
         while True:
             self.check_events()
             self.render()
-            self.dmouse = tup_subtract(self.mouse.get_pos(), self.last_mouse)
+            self.dmouse = np.subtract(self.mouse.get_pos(), self.last_mouse)
             self.dt = self.clock.tick(self.MAX_FPS)
 
 if __name__ == "__main__":
